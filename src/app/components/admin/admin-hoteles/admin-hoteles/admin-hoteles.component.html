@@ -1,0 +1,263 @@
+<div class="grid-container">
+    <h1 class="mat-h1">Hoteles</h1>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" type="button" class="ms-3 btn btn-event btn-success"
+            (click)="abrirModal(dialogTemplate)">
+            Agregar Hotel Nuevo
+            <span class="btn-icon-end"></span>
+        </button>
+    </mat-card-actions>
+    <mat-card class="example-card card-spacing">
+        <mat-form-field appearance="standard" style="width: 100%;">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+        </mat-form-field>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" style="width: 100%;">
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="idhotel">
+                    <th mat-header-cell *matHeaderCellDef> ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.idhotel}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef> Hotel </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="direccion">
+                    <th mat-header-cell *matHeaderCellDef> Dirección </th>
+                    <td mat-cell *matCellDef="let element"> {{element.direccion}} </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="telefono">
+                    <th mat-header-cell *matHeaderCellDef>Telefono </th>
+                    <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef> Correo Electrónico </th>
+                    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
+
+                <!-- Options Column -->
+                <ng-container matColumnDef="opc">
+                    <th mat-header-cell *matHeaderCellDef> Opciones </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-stroked-button color="primary"
+                            (click)="abrirModalDetalles(dialogTemplateDetalles,element.idhotel)">Ver
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsArticulos"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsArticulos;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </div>
+    </mat-card>
+</div>
+
+<!--AGREGAR HOTEL-->
+<ng-template #dialogTemplate>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-basic-title">
+                Agregar Hotel
+            </h3>
+
+        </div>
+        <hr>
+        <div class="modal-body">
+            <!--fomr-->
+            <form [formGroup]="form" (ngSubmit)="addHotel()" class="example-form">
+                <div class="form-container">
+                    <div class="row">
+
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="nombre" type="text">
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Dirección</mat-label>
+                            <input matInput formControlName="direccion" type="text">
+                        </mat-form-field>
+
+                    </div>
+                    <div class="row">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Teléfono</mat-label>
+                            <input matInput formControlName="telefono" type="text">
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Correo Electrónico</mat-label>
+                            <input matInput formControlName="email" type="email">
+                        </mat-form-field>
+                    </div>
+                    <div class="row">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Pais</mat-label>
+                            <input matInput formControlName="pais" type="text">
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Ciudad</mat-label>
+                            <input matInput formControlName="ciudad" type="text">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <mat-card-actions>
+                    <button mat-raised-button color="warn" type="button" mat-dialog-close>
+                        Descartar
+                    </button>
+                    <button mat-raised-button color="primary" type="submit" mat-dialog-close>
+                        Guardar
+                    </button>
+                </mat-card-actions>
+            </form>
+        </div>
+    </div>
+</ng-template>
+<!-- MODAL PARA VER LOS DETALLES DEL ARITUCLO -->
+<ng-template #dialogTemplateDetalles>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-basic-title">
+                Detalles Habitacion
+            </h3>
+        </div>
+        <hr>
+        <div class="modal-body">
+            <mat-card class="example-card card-spacing">
+                <mat-card-title-group>
+                    <img mat-card-sm-image [src]="this.imagen"
+                        (error)="this.imagen = 'https://static.vecteezy.com/system/resources/previews/016/637/865/original/school-supplies-stationery-tools-png.png'"
+                        crossorigin="anonymous" class="user-img redimention" alt=""
+                        style="width: 100%; height: 280px; margin-bottom: 10px;">
+                </mat-card-title-group>
+                <mat-card-content>
+                    <p>Hotel: {{this.idhotel}}</p>
+                    <p>Nombre: {{this.nombre}}</p>
+                    <p>Direción: {{this.direccion}}</p>
+                    <p>Teléfono: {{this.telefono}}</p>
+                    <p>Correo Electrónico: {{this.email}}</p>
+                    <p>Ciudad: {{this.ciudad}}</p>
+                    <p>Pais: {{this.pais}}</p>
+                    <p>Condición: {{this.condicion}}</p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color="warn" type="button">Eliminar</button>
+                    <button mat-button class="color" type="button"
+                        (click)="abrirModalUpdate(dialogTemplateActualizar,this.idhotel)">Actualizar</button>
+                    <button mat-raised-button color="primary" type="button"
+                        (click)="abrirModalUpdateImage(dialogTemplateUploadImage,this.idhotel)">Actualizar
+                        Imagen</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</ng-template>
+
+<!--modal para actualizar habitacion-->
+<ng-template #dialogTemplateActualizar>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-basic-title">
+                Actualizar Hotel
+            </h3>
+        </div>
+        <hr>
+        <div class="modal-body">
+            <form [formGroup]="formUpdate" (ngSubmit)="updateHotel()" class="example-form">
+                <div class="form-container">
+                    <div class="row">
+
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="nombre" type="text">
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Dirección</mat-label>
+                            <input matInput formControlName="direccion" type="text">
+                        </mat-form-field>
+
+                    </div>
+                    <div class="row">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Teléfono</mat-label>
+                            <input matInput formControlName="telefono" type="text">
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Correo Electrónico</mat-label>
+                            <input matInput formControlName="email" type="email">
+                        </mat-form-field>
+                    </div>
+                    <div class="row">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>País</mat-label>
+                            <input matInput formControlName="pais" type="text">
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Ciudad</mat-label>
+                            <input matInput formControlName="ciudad" type="text">
+                        </mat-form-field>
+                    </div>
+                    <div class="row">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Condición</mat-label>
+                            <input matInput formControlName="condicion" type="text">
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+                <mat-card-actions>
+                    <button mat-raised-button color="warn" type="button" mat-dialog-close>
+                        Descartar
+                    </button>
+                    <button mat-raised-button color="primary" type="submit" mat-dialog-close>
+                        Guardar
+                    </button>
+                </mat-card-actions>
+            </form>
+        </div>
+    </div>
+</ng-template>
+
+<!--modal para actualizar imagen -->
+<ng-template #dialogTemplateUploadImage>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-basic-title">
+         Actualizar Imagen de Hotel
+        </h3>
+      </div>
+      <hr>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="image" class="form-label">Select image: </label>
+          <input (change)="filesChange($event)" type="file" class="form-control" id="image">
+        </div>
+        <mat-card-actions>
+          <button mat-raised-button color="warn" type="button" mat-dialog-close>
+            <i class="fa fa-times-circle" aria-hidden="true"></i> Descartar
+          </button>
+          <button mat-raised-button mat-dialog-close (click)="uploadImage()" type="button"
+            class="btn btn-primary">Guardar</button>
+        </mat-card-actions>
+      </div>
+    </div>
+  </ng-template>

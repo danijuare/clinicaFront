@@ -1,0 +1,211 @@
+<div class="grid-container">
+    <h1 class="mat-h1">Servicios</h1>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" type="button" class="ms-3 btn btn-event btn-success"
+            (click)="abrirModal(dialogTemplate)">
+            Agregar Servicio Nuevo
+            <span class="btn-icon-end"></span>
+        </button>
+    </mat-card-actions>
+    <mat-card class="example-card card-spacing">
+        <mat-form-field appearance="standard" style="width: 100%;">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+        </mat-form-field>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" style="width: 100%;">
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="idservicios">
+                    <th mat-header-cell *matHeaderCellDef> ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.idservicios}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="servicio">
+                    <th mat-header-cell *matHeaderCellDef> Servicio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.servicio}} </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="descripcion">
+                    <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                    <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="precio">
+                    <th mat-header-cell *matHeaderCellDef>Precio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
+                </ng-container>
+
+                <!-- Options Column -->
+                <ng-container matColumnDef="opc">
+                    <th mat-header-cell *matHeaderCellDef> Más Detalles </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-stroked-button color="primary"
+                            (click)="abrirModalDetalles(dialogTemplateDetalles,element.idservicios)">Ver
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsArticulos"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsArticulos;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </div>
+    </mat-card>
+</div>
+
+<!--AGREGAR -->
+<ng-template #dialogTemplate>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-basic-title">
+                Agregar Servicio
+            </h3>
+
+        </div>
+        <hr>
+        <div class="modal-body">
+            <!--fomr-->
+            <form [formGroup]="form" (ngSubmit)="addServicio()" class="example-form">
+                <div class="form-container">
+                    <div class="row">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Servicio</mat-label>
+                            <input matInput formControlName="servicio" type="text">
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Descripción</mat-label>
+                            <input matInput formControlName="descripcion" type="text">
+                        </mat-form-field>
+                    </div>
+                    <div class="row">
+
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Precio</mat-label>
+                            <input matInput formControlName="precio" type="number">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <mat-card-actions>
+                    <button mat-raised-button color="warn" type="button" mat-dialog-close>
+                        Descartar
+                    </button>
+                    <button mat-raised-button color="primary" type="submit" mat-dialog-close>
+                        Guardar
+                    </button>
+                </mat-card-actions>
+            </form>
+        </div>
+    </div>
+</ng-template>
+
+<!-- MODAL PARA VER LOS DETALLES  -->
+<ng-template #dialogTemplateDetalles>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-basic-title">
+                Detalles Servicio
+            </h3>
+        </div>
+        <hr>
+        <div class="modal-body">
+            <mat-card class="example-card card-spacing">
+                <mat-card-title-group>
+                    <img mat-card-sm-image [src]="this.imagen"
+                        (error)="this.imagen = 'https://static.vecteezy.com/system/resources/previews/016/637/865/original/school-supplies-stationery-tools-png.png'"
+                        crossorigin="anonymous" class="user-img redimention" alt=""
+                        style="width: 100%; height: 380px;  margin-bottom: 10px;">
+                </mat-card-title-group>
+                <mat-card-content>
+                    <p>ID: {{this.idservicios}}</p>
+                    <p>Servicio: {{this.servicio}}</p>
+                    <p>Descripción: {{this.descripcion}}</p>
+                    <p>Precio: {{this.precio}}</p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color="warn" type="button">Eliminar</button>
+                    <button mat-button class="color" type="button"
+                        (click)="abrirModalUpdate(dialogTemplateActualizar,this.idservicios)">Actualizar</button>
+                    <button mat-raised-button color="primary" type="button"
+                        (click)="abrirModalUpdateImage(dialogTemplateUploadImage,this.idservicios)">Actualizar
+                        Imagen</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</ng-template>
+
+<!--modal para actualizar -->
+<ng-template #dialogTemplateActualizar>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-basic-title">
+                Actualizar Servicio
+            </h3>
+        </div>
+        <hr>
+        <div class="modal-body">
+            <form [formGroup]="formUpdate" (ngSubmit)="updateServicio()">
+                <div class="form-container">
+                    <div class="row">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>servicio</mat-label>
+                            <input matInput formControlName="servicio" type="text">
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>descripcion</mat-label>
+                            <input matInput formControlName="descripcion" type="text">
+                        </mat-form-field>
+                    </div>
+                    <div class="row">
+
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>precio</mat-label>
+                            <input matInput formControlName="precio" type="number">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <mat-card-actions>
+                    <button mat-raised-button color="warn" type="button" mat-dialog-close>
+                        Descartar
+                    </button>
+                    <button mat-raised-button color="primary" type="submit" mat-dialog-close>
+                        Guardar
+                    </button>
+                </mat-card-actions>
+            </form>
+        </div>
+    </div>
+</ng-template>
+
+
+<!--modal para actualizar imagen -->
+<ng-template #dialogTemplateUploadImage>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-basic-title">
+         Actualizar Imagen de Servicio
+        </h3>
+      </div>
+      <hr>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="image" class="form-label">Select image: </label>
+          <input (change)="filesChange($event)" type="file" class="form-control" id="image">
+        </div>
+        <mat-card-actions>
+          <button mat-raised-button color="warn" type="button" mat-dialog-close>
+            <i class="fa fa-times-circle" aria-hidden="true"></i> Descartar
+          </button>
+          <button mat-raised-button mat-dialog-close (click)="uploadImage()" type="button"
+            class="btn btn-primary">Guardar</button>
+        </mat-card-actions>
+      </div>
+    </div>
+  </ng-template>

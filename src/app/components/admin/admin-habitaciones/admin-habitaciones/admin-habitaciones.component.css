@@ -1,0 +1,94 @@
+.grid-container {
+    margin: 20px;
+}
+
+.grid-container2 {
+    display: flex;
+    flex-wrap: nowrap;
+    /* Evita que las tarjetas se envuelvan a la siguiente línea */
+    overflow-x: auto;
+    /* Agrega scroll horizontal si las tarjetas no caben en la pantalla */
+}
+
+.mat-card {
+    flex: 1;
+    /* Hace que las tarjetas ocupen el mismo ancho en la fila */
+    margin-right: 10px;
+    /* Espacio entre las tarjetas */
+}
+
+.card-spacing {
+    margin-bottom: 20px;
+}
+
+.buttonAdd {
+    margin-bottom: 20px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.color {
+    background-color: var(--btn-color-blue);
+    color: #fff;
+}
+
+mat-card-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-header {
+    color: #fff;
+    padding: 9px 15px;
+    border-bottom: 1px solid #eee;
+    background-color: #003474;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    /* Espacio entre columnas */
+    margin-bottom: 16px;
+    /* Espaciado entre filas */
+}
+
+.mat-form-field {
+    flex: 1;
+    /* Cada campo ocupa el mismo espacio */
+    margin-right: 16px;
+    /* Espacio entre campos */
+}
+
+.row:last-child .mat-form-field {
+    margin-right: 0;
+    /* Sin margen derecho en el último campo de la fila */
+}
+
+.p-modal{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

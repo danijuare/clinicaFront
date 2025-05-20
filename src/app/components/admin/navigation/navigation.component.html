@@ -1,0 +1,43 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="clientes">
+        <img src="../../../../assets/img/habitaciones/services-icons/nav/user.svg" alt="user icon">
+        Clientes</a>
+      <a mat-list-item routerLink="facturas">
+        <img src="../../../../assets/img/habitaciones/services-icons/nav/invoice.svg" alt="user icon">
+        Facturas</a>
+      <a mat-list-item routerLink="habitaciones">
+        <img src="../../../../assets/img/habitaciones/services-icons/nav/bed.svg" alt="user icon">
+        Habitaciones</a>
+      <a mat-list-item routerLink="hoteles">
+        <img src="../../../../assets/img/habitaciones/services-icons/nav/hotel.svg" alt="user icon">
+        Hoteles</a>
+      <a mat-list-item routerLink="reservaciones">
+        <img src="../../../../assets/img/habitaciones/services-icons/nav/calendar-reservations.svg" alt="user icon">
+        Reservaciones</a>
+      <a mat-list-item routerLink="servicios">
+        <img src="../../../../assets/img/habitaciones/services-icons/nav/pool.svg" alt="user icon">
+        Servicios</a>
+      <a mat-list-item routerLink="usuarios">
+        <img src="../../../../assets/img/habitaciones/services-icons/nav/user.svg" alt="user icon">
+        Usuarios</a>
+
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="mat-color">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">Menu</mat-icon>
+      </button>
+      <span>Hotel | UMG</span>
+      <span class="spacer"></span>
+      <button mat-button class="logout-button" (click)="salir()">Cerrar sesión</button>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

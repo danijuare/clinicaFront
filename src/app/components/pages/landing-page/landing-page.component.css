@@ -1,0 +1,349 @@
+*{
+  box-sizing: border-box;
+}
+
+main{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: self-end;
+  height: 100vh;
+  width: 100%;
+  padding: var(--padding-both-sides-desktop);
+  gap: 10px;
+  background-image: url("../../../../assets/img/habitaciones/hero/hero-image.png");
+  background-size: cover;
+  color: #fff;
+}
+
+.hero-image p {
+  font-weight: lighter;
+  width: 50%;
+  text-align: end;
+}
+
+.hero-image a {
+  text-align: center;
+  line-height: 40px;
+  text-decoration: none;
+  color: #fff;
+  height: 40px;
+  width: 140px;
+  border-radius: 20px;
+  background: #0278AE;
+}
+
+.section-styles {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: auto;
+  padding: 0 200px;
+  width: 100%;
+  max-width: 1600px;
+  margin: 50px 0px;
+}
+
+.section-styles > p{
+  margin-bottom: 20px;
+}
+
+.section-styles > h2{
+  height: auto;
+  line-height: 100px;
+  font-size: 40px;
+  align-self: self-start;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.section-description{
+  width: 100%;
+  display: flex;
+  font-size: 1.2em;
+}
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  width: 100%;
+  height: auto;
+  color: #fff;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0,0,0.3);
+  padding: 30px;
+  box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#habitations > .cards-container {
+  background-image: url(../../../../assets/img/habitaciones/img/section1.png);
+}
+
+#services > .cards-container{
+  background-image: url(../../../../assets/img/habitaciones/img/section2.png);
+}
+
+#hotels > .cards-container{
+  background-image: url(../../../../assets/img/habitaciones/img/section3.png);
+}
+
+
+
+.room-card {
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 260px;
+  max-width: 260px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #000000;
+  background-color: #fff;
+  transition: all 200ms ease-in-out;
+}
+
+.room-card:hover{
+  transform: translateY(-5px);
+}
+
+.room-image {
+  width: 100%;
+  min-height: 250px;
+  max-height: 250px;
+  object-fit: cover;
+}
+
+.room-info {
+  padding: 0 10px;
+}
+.room-info > h2{
+  text-transform: uppercase;
+}
+
+.price {
+  font-weight: bold;
+  color: var(--btn-color-blue);
+}
+
+.capacity {
+  font-size: 0.9em;
+}
+
+.estado{
+  top: 10px;
+  position: absolute;
+  max-width: 120px;
+  padding: 4px 8px;
+  background-color: #000;
+  border-radius: 10px;
+  text-align: center;
+  color: #fff;
+  font-size: 0.8em;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  gap: 15px;
+}
+
+.actions > button {
+  position: inherit;
+  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.details-button {
+  color: #fff;
+  background-color: var(--btn-color-blue);
+}
+
+.details-button:hover{
+  filter: opacity(0.8);
+}
+
+
+/* NUEVO CSS PARA LAS CARDS DE SERVICIOS */
+/* From Uiverse.io by samuelfcosta18 */
+section .card {
+  position: relative;
+  max-width: 340px;
+  height: 250px;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  perspective: 1000px;
+  transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.room-img{
+  object-fit: cover;
+}
+
+.card svg {
+  fill: #333;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 3px;
+}
+
+.card:hover {
+  cursor: pointer;
+
+  box-shadow: 0 8px 16px #000000;
+  background-color: var(--btn-color-blue);
+  color: #ffffff;
+}
+
+.card__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: var(--btn-color-blue);
+  transform: rotateX(-90deg);
+  transform-origin: bottom;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover .card__content {
+  transform: rotateX(0deg);
+}
+
+.card__title {
+  margin: 0;
+
+  font-size: 24px;
+  color: var(--white);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.card:hover svg {
+  scale: 0;
+}
+
+.card__description {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+/* Commands to change the shadows in dark mode
+@media (prefers-color-scheme: dark) {
+  .card:hover {
+  box-shadow: 0 8px 16px #000000;
+  }
+}*/
+
+
+/* NUEVO CSS PARA LAS CARDS DE HOTELES*/
+/* From Uiverse.io by gharsh11032000 */
+
+
+.card-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  border-radius: 10px;
+  max-width: 1000px;
+  height: 400px;
+}
+
+.card-container::before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(-45deg, #fc00ff 0%, #00dbde 100%);
+  transform: translate3d(0, 0, 0) scale(0.95);
+  filter: blur(20px);
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.card .img-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(-45deg, #fc00ff 0%, #00dbde 100%);
+  transition: scale 0.6s, rotate 0.6s, filter 1s;
+}
+
+.card .img-content svg {
+  width: 50px;
+  height: 50px;
+  fill: #212121;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.card .content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  color: #e8e8e8;
+  padding: 20px 24px;
+  line-height: 1.5;
+  border-radius: 5px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(50px);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.card .content .heading {
+  font-size: 32px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.card:hover .content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card:hover .img-content {
+  scale: 2.5;
+  rotate: 30deg;
+  filter: blur(7px) brightness(0.6);
+}
+
+.card:hover .img-content svg {
+  fill: transparent;
+}
+
+

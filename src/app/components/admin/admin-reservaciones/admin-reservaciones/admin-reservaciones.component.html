@@ -1,0 +1,57 @@
+<div class="grid-container">
+    <h1 class="mat-h1">Reservaciones</h1>
+    <mat-card class="example-card card-spacing">
+        <mat-form-field appearance="standard" style="width: 100%;">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+        </mat-form-field>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" style="width: 100%;">
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="idreservaciones">
+                    <th mat-header-cell *matHeaderCellDef> ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.idreservaciones}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="idcliente">
+                    <th mat-header-cell *matHeaderCellDef>ID Cliente </th>
+                    <td mat-cell *matCellDef="let element"> {{element.idcliente}} </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="idhabitacion">
+                    <th mat-header-cell *matHeaderCellDef>ID Habitacion </th>
+                    <td mat-cell *matCellDef="let element"> {{element.idhabitacion}} </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="fecha_inicio">
+                    <th mat-header-cell *matHeaderCellDef>Fecha Inicio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.fecha_inicio}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="fecha_fin">
+                    <th mat-header-cell *matHeaderCellDef> Fecha Fin </th>
+                    <td mat-cell *matCellDef="let element"> {{element.fecha_fin}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="estado">
+                    <th mat-header-cell *matHeaderCellDef> Estado </th>
+                    <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                </ng-container>
+
+                <!-- Options Column -->
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsArticulos"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsArticulos;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </div>
+    </mat-card>
+</div>

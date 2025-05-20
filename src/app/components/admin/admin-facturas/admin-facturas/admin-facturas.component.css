@@ -1,0 +1,39 @@
+.grid-container {
+    margin: 20px;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+
+.mat-row:nth-child(even) {
+    /*color para filas pares*/
+    background-color: #f2f2f2;
+}
+
+.mat-row:nth-child(odd) {
+    /*color para filas impares*/
+    background-color: #ffffff;
+}
+
+
+.mat-cell {
+    /*bordes de celdas*/
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+}
+
+.mat-header-row .mat-cell,
+.mat-footer-row .mat-cell {
+    border: none;
+}
+
+table mat-cell mat-header-cell {
+    text-align: center;
+}

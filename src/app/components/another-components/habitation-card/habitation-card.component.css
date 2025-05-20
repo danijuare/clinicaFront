@@ -1,0 +1,23 @@
+*{
+    --card-height: 400px;
+    --card-width: 250px;
+    color: #000;
+}
+.habitation-card{
+    width: var(--card-width);
+    height: var(--card-height);
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.habitation-image{
+    width: 100%;
+    height:calc(var(--card-height) * 0.5    ) ;
+    border-radius: 10px;
+}
+
+.habitation-name{
+    text-transform: uppercase;
+    font-size: var(--font-size-h3-desktop);
+}

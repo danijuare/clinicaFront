@@ -1,0 +1,36 @@
+footer{
+  margin-top: 50px;
+  padding: 50px 200px;
+  height: 400px;
+  background-color: var(--main-color);
+  display: grid;
+  align-items: start;
+  grid-template-columns: repeat(2,1fr);
+  grid-template-rows: repeat(2,1fr);
+  color: var(--font-color-white);
+}
+
+a{
+  text-decoration: none;
+  color: var(--font-color-white);
+}
+
+.help-info{
+  max-width: 1000px;
+  grid-area: 1/1;
+  align-self: self-start;
+}
+
+.terms-info{
+  max-width: 1000px;
+  align-self: self-start;
+  grid-area: 1/2;
+  grid-area: "terms";
+}
+
+.aditional-info{
+  max-width: 1000px;
+  align-self: center;
+  text-align: start;
+  grid-area: 2;
+}

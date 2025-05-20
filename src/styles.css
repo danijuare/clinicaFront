@@ -1,0 +1,49 @@
+/* You can add global styles to this file, and also import other style files 
+
+html, body { height: 100%; }
+*/
+body {
+    margin: 0;
+    font-family: Inria Sans, "sans-serif";
+    /*background-color: #686e77;*/
+    background-color: auto;
+}
+
+* {
+    font-family: Inria Sans, "sans-serif" !important;
+    box-sizing: border-box;
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: Inria Sans, "sans-serif";
+}
+
+:root {
+    --font-color-white: #fff;
+    --font-size-h3-desktop: 24px;
+    --font-size-h4-desktop: 22px;
+    --font-size-p-desktop: 16px;
+    --btn-color-blue: #0278AE;
+    --main-color: #001823;
+    --padding-both-sides-desktop: 0 20%;
+}
+
+
+/*Botones de cards*/
+.btn-details-blue {
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    border: none;
+    background-color: var(--btn-color-blue);
+    color: var(--font-color-white);
+}
+
+.btn-details-blue:hover {
+    filter: brightness(1.2);
+}

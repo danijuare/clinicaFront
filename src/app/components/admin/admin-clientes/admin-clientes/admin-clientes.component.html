@@ -1,0 +1,57 @@
+<div class="grid-container">
+    <h1 class="mat-h1">Clientes</h1>
+    <mat-card class="example-card card-spacing">
+        <mat-form-field appearance="standard" style="width: 100%;">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+        </mat-form-field>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" style="width: 100%;">
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="idcliente">
+                    <th mat-header-cell *matHeaderCellDef> ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.idcliente}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef> Nombres </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="apellido">
+                    <th mat-header-cell *matHeaderCellDef> Apellidos </th>
+                    <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef>Correo Electrónico </th>
+                    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="telefono">
+                    <th mat-header-cell *matHeaderCellDef> Telefono </th>
+                    <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="documento_identidad">
+                    <th mat-header-cell *matHeaderCellDef> Documento de Identificación </th>
+                    <td mat-cell *matCellDef="let element"> {{element.documento_identidad}} </td>
+                </ng-container>
+
+                <!-- Options Column -->
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsArticulos"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsArticulos;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </div>
+    </mat-card>
+</div>

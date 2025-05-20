@@ -1,0 +1,42 @@
+
+.service-card{
+    position: relative;
+    width: 100%;
+    height: 600px;
+}
+
+.service-image{
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    object-fit: cover;
+    filter: brightness(0.4);
+}
+
+.service-details{
+    height: 100%;
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    padding: 50px;
+}
+
+.service-name{
+    text-transform: uppercase;
+    font-size: var(--font-size-h3-desktop);
+}
+
+.service-description{
+    font-size: var(--font-size-p-desktop);
+}
+
+.service-details_more{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.service-type{
+    width: 50%;
+    text-transform: uppercase;
+    font-size: var(--font-size-h4-desktop);
+}

@@ -1,0 +1,192 @@
+<html>
+
+<body>
+  <main>
+    <div class="card">
+      <div class="card__title">
+        <div class="icon">
+          <a href="#"><img src="../../../../assets/img/habitaciones/services-icons/arrow-left.svg"></a>
+        </div>
+        <h3>Habitacion # {{this.numero_habitacion}}</h3>
+      </div>
+      <div class="card__body">
+        <div class="half">
+          <div class="featured_text">
+            <!--<h1>Nurton</h1>-->
+            <p class="sub">{{this.tipo}}</p>
+            <p class="price">Q{{this.precio}}</p>
+          </div>
+          <div class="image">
+            <img [src]="this.imagen" (error)="this.imagen = '../../../../assets/img/habitaciones/img/card-image.png'"
+              class="room-image" crossorigin="anonymous">
+          </div>
+        </div>
+        <div class="half">
+          <div class="description">
+            <p class="desc-item"><img src="../../../../assets/img/habitaciones/services-icons/nav/state.svg"> Estado Habitación: {{this.estado}}</p>
+            <p class="desc-item"><img src="../../../../assets/img/habitaciones/services-icons/nav/size.svg"> Dimensiones: {{this.dimensiones}}</p>
+            <p class="desc-item"><img src="../../../../assets/img/habitaciones/services-icons/nav/bed.svg"> Camas: {{this.cantidad_camas}}</p>
+            <p class="desc-item"><img src="../../../../assets/img/habitaciones/services-icons/nav/bath.svg"> Baños: {{this.cantidad_banios}}</p>
+            <p class="desc-item"><img src="../../../../assets/img/habitaciones/services-icons/nav/wifi.svg"> WIFI: {{this.wifi}}</p>
+            <p class="desc-item"><img src="../../../../assets/img/habitaciones/services-icons/nav/tv.svg"> Televisión: {{this.tv}}</p>
+            <p class="desc-item"><img src="../../../../assets/img/habitaciones/services-icons/nav/ac.svg"> Aire Acondicionado: {{this.aireacondicionado}}</p>
+            <p class="desc-item"><img src="../../../../assets/img/habitaciones/services-icons/nav/view.svg"> Vistas de habitacion: {{this.vistas}}</p>
+            <p class="desc-item"><img src="../../../../assets/img/habitaciones/services-icons/nav/user.svg"> Capacidad Habitacion: {{this.capacidad}}</p>
+            <p class="desc-item"><img src="../../../../assets/img/habitaciones/services-icons/nav/hotel.svg"> Hotel: {{this.hotel}}</p>
+          </div>
+
+        </div>
+      </div>
+      <div class="card__footer">
+        <div class="recommend">
+          <h3><a routerLink="">Regresar</a></h3>
+        </div>
+
+
+        <div class="action">
+          <button type="button" (click)="abrirModalUpdate(dialogTemplateActualizar)">Reserva
+            ahora Nuevo!</button>
+        </div>
+        <div class="action">
+          <button type="button" (click)="abrirModalUpdate2(dialogTemplateActualizar2)">Reserva
+            ahora Existente!</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
+
+<!--modal para reservacion-->
+<ng-template #dialogTemplateActualizar>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-basic-title">
+        Reservación!
+      </h3>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <form [formGroup]="formReservacion" (ngSubmit)="addReservacion()" class="example-form">
+
+        <!-- Datos del Cliente -->
+        <h4>Datos del Cliente</h4>
+        <mat-form-field appearance="fill">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Apellido</mat-label>
+          <input matInput formControlName="apellido" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required type="email">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Teléfono</mat-label>
+          <input matInput formControlName="telefono" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Documento de Identidad</mat-label>
+          <input matInput formControlName="documento_identidad" required>
+
+        </mat-form-field>
+
+        <!-- Datos de la Habitación -->
+        <h4>Datos de la Habitación</h4>
+
+        <mat-form-field appearance="fill">
+          <mat-label>ID Habitación</mat-label>
+          <input matInput formControlName="idhabitacion" required>
+
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de Inicio</mat-label>
+          <input matInput formControlName="fecha_inicio" required type="date">
+
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de Fin</mat-label>
+          <input matInput formControlName="fecha_fin" required type="date">
+        </mat-form-field>
+
+        <mat-card-actions>
+          <button mat-raised-button color="warn" type="button" mat-dialog-close>
+            <i class="fa fa-times-circle" aria-hidden="true"></i> Descartar
+          </button>
+          <button mat-raised-button color="primary" type="submit" mat-dialog-close>
+            <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar
+          </button>
+        </mat-card-actions>
+
+      </form>
+    </div>
+  </div>
+</ng-template>
+<!--modal para reservacion-->
+
+<!--modal para reservacion-->
+<ng-template #dialogTemplateActualizar2>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-basic-title">
+        Reservación!
+      </h3>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <form [formGroup]="formReservacion2" (ngSubmit)="addReservacion2()" class="example-form">
+
+        <!-- Datos del Cliente -->
+        <h4>Datos del Cliente</h4>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>cliente</mat-label>
+          <mat-select formControlName="idcliente">
+              <mat-option *ngFor="let cliente of clientesData" [value]="cliente.idcliente">
+                  {{cliente.nombre}}
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+
+        <!-- Datos de la Habitación -->
+        <h4>Datos de la Habitación</h4>
+
+        <mat-form-field appearance="fill">
+          <mat-label>ID Habitación</mat-label>
+          <input matInput formControlName="idhabitacion" required>
+
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de Inicio</mat-label>
+          <input matInput formControlName="fecha_inicio" required type="date">
+
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de Fin</mat-label>
+          <input matInput formControlName="fecha_fin" required type="date">
+        </mat-form-field>
+
+        <mat-card-actions>
+          <button mat-raised-button color="warn" type="button" mat-dialog-close>
+            <i class="fa fa-times-circle" aria-hidden="true"></i> Descartar
+          </button>
+          <button mat-raised-button color="primary" type="submit" mat-dialog-close>
+            <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar
+          </button>
+        </mat-card-actions>
+
+      </form>
+    </div>
+  </div>
+</ng-template>
+<!--modal para reservacion-->

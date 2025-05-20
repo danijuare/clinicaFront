@@ -1,0 +1,75 @@
+<section class="hero-image">
+  <h1>Tu refugio perfecto, lejos de casa</h1>
+
+  <a routerLink="/nosotros">Conoce más!</a>
+</section>
+<section id="habitations" class="section-styles">
+  <h2>Habitaciones</h2>
+  <p class="section-description">Elige entre una variedad de habitaciones que combinan confort y estilo, todas equipadas para brindarte una estancia perfecta.</p>
+  <div class="cards-container">
+    <!-- Colocar imagen como background -->
+    <div class="room-card" *ngFor="let habitacion of allHabitaciones">
+      <img [src]="habitacion.imagen"
+        (error)="habitacion.imagen = '../../../../assets/img/habitaciones/img/card-image.png'" class="room-image"
+        crossorigin="anonymous">
+      <div class="room-info">
+        <h2>{{ habitacion.tipo }}</h2>
+        <p class="estado">{{ habitacion.estado }}</p>
+        <p class="price"> Habitacion #{{ habitacion.numero_habitacion }}</p>
+        <p class="price">Q{{ habitacion.precio }} / noche</p>
+        <p class="capacity">Hotel: {{ habitacion.nombre_hotel }}</p>
+      </div>
+      <div class="actions">
+        <button class="details-button" [routerLink]="['/verHabitacion', habitacion.idhabitacion]">Rerservar Ahora!</button>
+      </div>
+    </div>
+  </div>
+</section>
+<!--SECCIÓN DE SERVICIOS Y AMENIDADES-->
+<section id="services" class="section-styles">
+  <h2 style="display: flex; justify-content: center;">Servicios y Amenidades</h2>
+  <p class="section-description">Disfruta de una completa gama de servicios, desde desayuno incluido hasta gimnasio y spa, para hacer de tu estancia algo memorable.</p>
+  <div class="cards-container">
+    <section id="card1" class="card" *ngFor="let servicio of allServicios">
+      <img [src]="servicio.imagen" (error)="servicio.imagen = '../../../../assets/img/habitaciones/img/card-image.png'"
+        class="room-image" crossorigin="anonymous">
+      <div class="card__content">
+        <p class="card__title">{{servicio.servicio}}</p>
+        <p class="card__description">
+          {{servicio.descripcion}}
+        </p>
+        <p class="card__description">
+          {{servicio.precio}}
+        </p>
+      </div>
+    </section>
+  </div>
+
+    <!--
+      <div class="container-services">
+      <app-services-card imageSrc="../../../../../assets/img/habitaciones/img/card-image.png" title="Servicio"
+        description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit quas quaerat in? Consequatur ex consequuntur porro quas deserunt tempora laudantium quos sequi voluptates, nostrum provident possimus necessitatibus, quis voluptatem. Veritatis?">
+      </app-services-card>
+    </div>
+    -->
+  </section>
+  <div>
+
+</div>
+<br>
+<section id="hotels" class="section-styles">
+  <h2 class="title">Hoteles</h2>
+  <p class="section-description">Explora nuestros hoteles en destinos únicos, diseñados para ofrecerte comodidad y calidad en cada experiencia de viaje.</p>
+    <div class="cards-container">
+      <div class="card" *ngFor="let hotel of allHoteles">
+        <div class="img-content">
+          <img [src]="hotel.imagen" (error)="hotel.imagen = '../../../../assets/img/habitaciones/img/card-image.png'"
+          class="room-image" crossorigin="anonymous">
+        </div>
+        <div class="content">
+          <p class="heading">{{hotel.nombre}}</p>
+          <p>{{hotel.direccion}}</p>
+        </div>
+      </div>
+    </div>
+</section>
