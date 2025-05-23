@@ -3,6 +3,7 @@ import { HabitacionRestService } from 'src/app/services/habitacion-rest.service'
 import { environment } from 'src/environments/environment';
 import { ServicioRestService } from 'src/app/services/servicio-rest.service';
 import { HotelRestService } from 'src/app/services/hotel-rest.service';
+import { AsignacionService } from 'src/app/services/asignacion.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -13,6 +14,7 @@ export class LandingPageComponent implements OnInit {
 
   //variables de componentes
   allHabitaciones: any[] = [];
+  allVentanillas: any[] = [];
   allServicios: any[] = [];
   allHoteles: any[] = [];
   idhabitacion: any;
@@ -27,13 +29,12 @@ export class LandingPageComponent implements OnInit {
   constructor(
     private habitacionRest: HabitacionRestService,
     private servicioRest: ServicioRestService,
-    private hotelRest: HotelRestService
+    private hotelRest: HotelRestService,
+    private asignacionRest: AsignacionService
   ) { }
 
   ngOnInit(): void {
-    this.getHabitaciones();
-    this.getServicios();
-    this.getHoteles();
+    this.getVentanillas();
   }
 
   test() {
@@ -98,6 +99,25 @@ export class LandingPageComponent implements OnInit {
         });
       }
     })
+  }
+
+  getAsignaciones() {
+    this.asignacionRest.getAsignaciones().subscribe({
+      next: (res: any) => {
+        console.log("res ", res);
+      },
+      error: (err) => { console.log("Error ", err) }
+    });
+  }
+
+  getVentanillas(){
+    this.asignacionRest.getVentanillas().subscribe({
+      next: (res: any) => {
+        this.allVentanillas = res.data;
+        console.log("this.allVentanillas ", this.allVentanillas);
+      },
+      error: (err) => { console.log("Error ", err) }
+    });
   }
 
 }

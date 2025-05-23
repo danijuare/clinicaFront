@@ -32,7 +32,7 @@ header {
 }
 
 header a {
-  color: #fff;
+  color: #000000;
   text-decoration: none;
   font-weight: bold;
 }
@@ -45,7 +45,7 @@ header nav ul li {
   list-style: none;
 }
 header nav ul li a {
-  color: #fff;
+  color: #000000;
   font-size: 1em;
   text-decoration: none;
   font-weight: bold;
