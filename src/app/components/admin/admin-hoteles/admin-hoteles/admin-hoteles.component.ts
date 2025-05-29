@@ -19,61 +19,65 @@ export class AdminHotelesComponent implements AfterViewInit {
   }
   //PARA LAS COLUMNAS
   displayedColumnsArticulos: string[] = [
-    'idhotel', 'nombre', 'direccion', 'telefono', 'email', 'opc'
+    'idventanillas', 'nombre_ventanilla', 'descripcion', 'condicion', 'nombre_tipo_consulta', 'opc'
   ];
   dataSource = new MatTableDataSource();
   form!: FormGroup;
   formUpdate!: FormGroup;
-  idhotel:any;
-  nombre:any;
-  direccion:any;
-  telefono:any;
-  email:any;
-  ciudad:any;
-  pais:any;
-  condicion:any;
-  imagen:any;
-  filesToUpload:any;
+  idventanillas: any;
+  nombre_ventanilla: any;
+  descripcion: any;
+  condicion: any;
+  idtipo_consulta: any;
+  nombre_tipo_consulta: any;
+  imagen: any;
+  tiposConsulta: any[] = [];
+
 
   constructor(
     private dialog: MatDialog,
-    private hotelRest:HotelRestService,
+    private hotelRest: HotelRestService,
     private fb: FormBuilder,
   ) { }
 
   ngOnInit(): void {
+    this.getTipoConsultas();
     this.form = this.fb.group({
       nombre: ['', Validators.required],
-      direccion: ['', Validators.required],
-      telefono: ['', Validators.required],
-      email: ['', Validators.required],
-      ciudad: ['', Validators.required],
-      pais: ['', Validators.required],
-      condicion: ['1', Validators.required],
+      descripcion: ['', Validators.required],
+      idtipo_consulta: ['', Validators.required]
     });
     this.formUpdate = this.fb.group({
       nombre: ['', Validators.required],
-      direccion: ['', Validators.required],
-      telefono: ['', Validators.required],
-      email: ['', Validators.required],
-      ciudad: ['', Validators.required],
-      pais: ['', Validators.required],
-      condicion: ['1', Validators.required],
+      descripcion: ['', Validators.required],
+      idtipo_consulta: ['', Validators.required],
+      condicion: ['', Validators.required]
     });
-    this.getHoteles();
+    this.getVentanillas();
   }
-  
 
-  
-  getHoteles(){
-    this.hotelRest.getHoteles().subscribe({
-      next: (res:any)=>{
-        const datosTable = res.data.map((hotel: any) => ({
-          idhotel: hotel.idhotel,
-          nombre: hotel.nombre,
-          direccion: hotel.direccion,
-          telefono: hotel.telefono,
-          email: hotel.email
+
+  getTipoConsultas() {
+    this.hotelRest.getTipoConsultas().subscribe({
+      next: (res: any) => {
+        this.tiposConsulta = res.data;
+      },
+      error: (err) => {
+        console.error('Error al obtener tipos de consulta', err);
+      }
+    });
+  }
+
+
+  getVentanillas() {
+    this.hotelRest.getVentanillas().subscribe({
+      next: (res: any) => {
+        const datosTable = res.data.map((ventanillas: any) => ({
+          idventanillas: ventanillas.idventanillas,
+          nombre_ventanilla: ventanillas.nombre_ventanilla,
+          descripcion: ventanillas.descripcion,
+          condicion: ventanillas.condicion,
+          nombre_tipo_consulta: ventanillas.nombre_tipo_consulta
         }));
         this.dataSource.data = datosTable;
       }
@@ -87,28 +91,30 @@ export class AdminHotelesComponent implements AfterViewInit {
 
 
   abrirModal(templateRef: any) {
+    this.form.reset();
     let dialogRef = this.dialog.open(templateRef, {
       width: '500px'
     });
   }
 
-  addHotel(){
-    if(this.form.invalid){
+  addVentanilla() {
+    if (this.form.invalid) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: "Completa el formulario correctamente",
       });
-    }else{
-      this.hotelRest.addHotel(this.form.value).subscribe({
-        next: (res:any)=>{
+    } else {
+      this.hotelRest.addVentanilla(this.form.value).subscribe({
+        next: (res: any) => {
           Swal.fire({
             title: '¡Éxito!',
             text: res.message,
             icon: 'success',
             confirmButtonText: 'Aceptar'
           });
-          this.getHoteles();
+          this.form.reset();
+          this.getVentanillas();
         },
         error: (err) => {
           console.log(err)
@@ -122,21 +128,17 @@ export class AdminHotelesComponent implements AfterViewInit {
     }
   }
 
-  idhotelDetalles:any;
-  abrirModalDetalles(templateRef:any, id:string){
-    this.idhotelDetalles = id;
-    console.log("idhotelDetalles ", this.idhotelDetalles);
-    this.hotelRest.getHotel(this.idhotelDetalles).subscribe({
-      next: (res:any)=>{
-        this.idhotel = res.data.idhotel;
-        this.nombre = res.data.nombre;
-        this.direccion = res.data.direccion;
-        this.telefono = res.data.telefono;
-        this.email = res.data.email;
-        this.ciudad = res.data.ciudad;
-        this.pais = res.data.pais;
+  idventanillaDetalles: any;
+  abrirModalDetalles(templateRef: any, id: string) {
+    this.idventanillas = id;
+    this.hotelRest.getVentanilla(this.idventanillas).subscribe({
+      next: (res: any) => {
+        this.idventanillas = res.data.idventanillas;
+        this.nombre_ventanilla = res.data.nombre_ventanilla;
+        this.descripcion = res.data.descripcion;
         this.condicion = res.data.condicion;
-        this.imagen = environment.baseUrl + 'hotel/getImage/' + res.data.imagen;
+        this.nombre_tipo_consulta = res.data.nombre_tipo_consulta;
+        this.imagen = "";
       }
     })
     let dialogRef = this.dialog.open(templateRef, {
@@ -150,43 +152,40 @@ export class AdminHotelesComponent implements AfterViewInit {
     */
   }
 
-  abrirModalUpdate(templateRef:any, id:string){
-    this.idhotel = id;
-    this.hotelRest.getHotel(this.idhotel).subscribe({
-      next: (res:any)=>{
+  abrirModalUpdate(templateRef: any, id: string) {
+    this.idventanillas = id;
+    this.hotelRest.getVentanilla(this.idventanillas).subscribe({
+      next: (res: any) => {
+        console.log("Res", res);
         this.formUpdate.setValue({
-          nombre : res.data.nombre,
-          direccion : res.data.direccion,
-          telefono : res.data.telefono,
-          email : res.data.email,
-          ciudad : res.data.ciudad,
-          pais : res.data.pais,
-          condicion : res.data.condicion
+          nombre: res.data.nombre_ventanilla,
+          descripcion: res.data.descripcion,
+          condicion: res.data.condicion,
+          idtipo_consulta: res.data.idtipo_consulta
         });
       }
     })
-    let dialogRef = this.dialog.open(templateRef, {
-      width: '500px'
-    });
+    this.dialog.open(templateRef, { width: '500px' });
   }
 
-  updateHotel(){
-    if(this.formUpdate.invalid){
+  updateVentanilla() {
+    if (this.formUpdate.invalid) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: "Completa el formulario correctamente",
       });
-    }else{
-      this.hotelRest.updateHotel(this.idhotel,this.formUpdate.value).subscribe({
-        next: (res:any)=>{
+    } else {
+      //console.log(this.idventanillas);
+      this.hotelRest.updateVentanilla(this.idventanillas, this.formUpdate.value).subscribe({
+        next: (res: any) => {
           Swal.fire({
             title: '¡Éxito!',
             text: res.message,
             icon: 'success',
             confirmButtonText: 'Aceptar'
           });
-          this.getHoteles();
+          this.getVentanillas();
         },
         error: (err) => {
           Swal.fire({
@@ -195,45 +194,9 @@ export class AdminHotelesComponent implements AfterViewInit {
             text: err.error.message || err.error,
           });
         }
-      })
+      });
     }
   }
 
-  abrirModalUpdateImage(templateRef:any, id:string){
-    this.idhotel = id;
-    let dialogRef = this.dialog.open(templateRef, {
-      width: '500px'
-    });
-  }
-
-  filesChange(inputFile:any){
-    this.filesToUpload = <Array<File>>inputFile.target.files;
-    //console.log(this.filesToUpload);
-  }
-  uploadImage(){
-    const id = this.idhotel;
-    //console.log("id ",id);
-    this.hotelRest.requestFiles(id, this.filesToUpload, 'imagen')
-    .then((res:any)=>{
-      //console.log("id ",id);
-      //console.log("this.filesToUpload ",this.filesToUpload);
-      let resClear = JSON.parse(res);
-      //console.log("resClear ",resClear);
-      if(!resClear.error){
-        Swal.fire({
-          title: 'Éxito',
-          icon: 'success',
-          text: resClear.message,
-          confirmButtonText: 'OK'
-        }).then(confirm=>{
-          this.getHoteles();
-        });
-        
-      }else{
-        console.log(res);
-        this.getHoteles();
-      }
-    })
-  }
 
 }

@@ -1,29 +1,26 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar>Menu DE TICKETS</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="clientes">
-        <img src="../../../../assets/img/habitaciones/services-icons/nav/user.svg" alt="user icon">
+        <img src="../../../../assets/img/habitaciones/services-icons/nav/usuario1.svg" alt="user icon">
         Clientes</a>
-      <a mat-list-item routerLink="facturas">
-        <img src="../../../../assets/img/habitaciones/services-icons/nav/invoice.svg" alt="user icon">
-        Facturas</a>
-      <a mat-list-item routerLink="habitaciones">
-        <img src="../../../../assets/img/habitaciones/services-icons/nav/bed.svg" alt="user icon">
-        Habitaciones</a>
-      <a mat-list-item routerLink="hoteles">
-        <img src="../../../../assets/img/habitaciones/services-icons/nav/hotel.svg" alt="user icon">
-        Hoteles</a>
-      <a mat-list-item routerLink="reservaciones">
-        <img src="../../../../assets/img/habitaciones/services-icons/nav/calendar-reservations.svg" alt="user icon">
-        Reservaciones</a>
       <a mat-list-item routerLink="servicios">
-        <img src="../../../../assets/img/habitaciones/services-icons/nav/pool.svg" alt="user icon">
-        Servicios</a>
+        <img src="../../../../assets/img/habitaciones/services-icons/nav/consultas.svg" alt="user icon">
+        Consultas</a>
+      <a mat-list-item routerLink="hoteles">
+        <img src="../../../../assets/img/habitaciones/services-icons/nav/ventanillas.svg" alt="user icon">
+        Ventanillas</a>
       <a mat-list-item routerLink="usuarios">
-        <img src="../../../../assets/img/habitaciones/services-icons/nav/user.svg" alt="user icon">
+        <img src="../../../../assets/img/habitaciones/services-icons/nav/admin.svg" alt="user icon">
         Usuarios</a>
+      <a mat-list-item routerLink="habitaciones">
+        <img src="../../../../assets/img/habitaciones/services-icons/nav/TICKET BUENO.svg" alt="user icon">
+        Tickets</a>
+      <a mat-list-item routerLink="reportes">
+        <img src="../../../../assets/img/habitaciones/services-icons/nav/reporte.svg" alt="user icon">
+        Reportes</a>
 
     </mat-nav-list>
   </mat-sidenav>
@@ -33,7 +30,7 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">Menu</mat-icon>
       </button>
-      <span>Hotel | UMG</span>
+      <span>CLINICA | UNIVERSIDAD MARIANO GALVEZ</span>
       <span class="spacer"></span>
       <button mat-button class="logout-button" (click)="salir()">Cerrar sesión</button>
     </mat-toolbar>

@@ -4,6 +4,9 @@ import { environment } from 'src/environments/environment';
 import { ServicioRestService } from 'src/app/services/servicio-rest.service';
 import { HotelRestService } from 'src/app/services/hotel-rest.service';
 import { AsignacionService } from 'src/app/services/asignacion.service';
+import { MatDialog } from '@angular/material/dialog';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-landing-page',
@@ -24,17 +27,26 @@ export class LandingPageComponent implements OnInit {
   precio: any;
   estado: any;
   imagen: any;
+  form!: FormGroup;
+  idtipo_consulta: any;
 
 
   constructor(
     private habitacionRest: HabitacionRestService,
     private servicioRest: ServicioRestService,
     private hotelRest: HotelRestService,
-    private asignacionRest: AsignacionService
+    private asignacionRest: AsignacionService,
+    private dialog: MatDialog,
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit(): void {
     this.getVentanillas();
+    this.form = this.fb.group({
+      descripcion: ['', Validators.required],
+      nombre_cliente: ['', Validators.required],
+      telefono_cliente: ['', Validators.required],
+    });
   }
 
   test() {
@@ -110,14 +122,68 @@ export class LandingPageComponent implements OnInit {
     });
   }
 
-  getVentanillas(){
+  getVentanillas() {
     this.asignacionRest.getVentanillas().subscribe({
       next: (res: any) => {
         this.allVentanillas = res.data;
-        console.log("this.allVentanillas ", this.allVentanillas);
+        //console.log("this.allVentanillas ", this.allVentanillas);
       },
       error: (err) => { console.log("Error ", err) }
     });
+  }
+
+
+  abrirModal(templateRef: any, idtipo_consulta:any) {
+    this.form.reset();
+    this.idtipo_consulta = idtipo_consulta;
+    //console.log("idtipo_consulta ", idtipo_consulta);
+    let dialogRef = this.dialog.open(templateRef, {
+      width: '500px'
+    });
+  }
+
+  getFechaHoraActual(): string {
+    const now = new Date();
+    const fecha = now.toISOString().split('T')[0]; // YYYY-MM-DD
+    const hora = now.toTimeString().split(' ')[0]; // HH:mm:ss
+    return `${fecha} ${hora}`;
+  }
+  addAsignacionTicket() {
+    if (this.form.invalid) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Completa el formulario correctamente",
+      });
+    } else {
+      const datosFormulario = this.form.value;
+      const ticket = {
+        ...datosFormulario,
+        fecha_hora_creacion: this.getFechaHoraActual(),
+        idtipo_consulta: this.idtipo_consulta
+      };
+      //console.log("ticket ",ticket);
+      this.asignacionRest.addAsignacionConsulta(ticket).subscribe({
+        next: (res: any) => {
+          Swal.fire({
+            title: '¡Éxito!',
+            text: res.message,
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+          });
+          this.form.reset();
+        },
+        error: (err) => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: err.error.message || err.error,
+          });
+        }
+      });
+      
+      
+    }
   }
 
 }

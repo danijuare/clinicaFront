@@ -52,6 +52,8 @@ import { AdminClientesComponent } from './components/admin/admin-clientes/admin-
 import { AdminUsuariosComponent } from './components/admin/admin-usuarios/admin-usuarios/admin-usuarios.component';
 import { AdminFacturasComponent } from './components/admin/admin-facturas/admin-facturas/admin-facturas.component';
 import { NavigationComponent } from './components/admin/navigation/navigation.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { AdminReportesComponent } from './components/admin/admin-reportes/admin-reportes/admin-reportes.component';
 
 
 @NgModule({
@@ -76,7 +78,8 @@ import { NavigationComponent } from './components/admin/navigation/navigation.co
     AdminClientesComponent,
     AdminUsuariosComponent,
     AdminFacturasComponent,
-    NavigationComponent
+    NavigationComponent,
+    AdminReportesComponent
 
 
   ],
@@ -112,7 +115,8 @@ import { NavigationComponent } from './components/admin/navigation/navigation.co
     MatListModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -18,4 +18,9 @@ export class AsignacionService {
   getVentanillas() {
     return this.http.get(environment.baseUrl + 'asignacion/getVentanillas');
   }
+
+  addAsignacionConsulta(params: {}) {
+    let body = JSON.stringify(params);
+    return this.http.post(environment.baseUrl + 'asignacion/addAsignacionConsulta', params);
+  }
 }

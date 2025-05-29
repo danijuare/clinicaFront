@@ -427,7 +427,6 @@ code {
   margin-bottom: 0.4rem;
 }
 .nft .main .creator {
-  display: flex;
   align-items: center;
   margin-top: 0.2rem;
   margin-bottom: -0.3rem;
@@ -498,7 +497,7 @@ div[style*="display: flex;"] {
 
 /* Card individual */
 .nft {
-  background: #ad682d;
+  background: #001823;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 300px;
@@ -524,3 +523,59 @@ div[style*="display: flex;"] {
     width: 90%;
   }
 }
+
+/* From Uiverse.io by nikk7007 */ 
+.slice {
+  --c1: #202020;
+  --c2: #00a1b7;
+  padding: 0.5em 1em;
+  font-size: var(--size-letter);
+
+  background-color: transparent;
+  border: calc(var(--size-letter) / 6) solid var(--c2);
+  border-radius: 0.2em;
+  cursor: pointer;
+
+  overflow: hidden;
+  position: relative;
+  transition: 300ms cubic-bezier(0.83, 0, 0.17, 1);
+
+  & > .text {
+    font-weight: 700;
+    color: var(--c2);
+    position: relative;
+    z-index: 1;
+    transition: color 700ms cubic-bezier(0.83, 0, 0.17, 1);
+  }
+}
+
+.slice::after {
+  content: "";
+
+  width: 0;
+  height: calc(300% + 1em);
+
+  position: absolute;
+  translate: -50% -50%;
+  inset: 50%;
+  rotate: 30deg;
+
+  background-color: var(--c2);
+  transition: 1000ms cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+.slice:hover {
+  & > .text {
+    color: var(--c1);
+  }
+  &::after {
+    width: calc(120% + 1em);
+  }
+}
+
+.slice:active {
+  scale: 0.98;
+  filter: brightness(0.9);
+}
+
+

@@ -1,359 +1,76 @@
 <div class="grid-container">
-    <h1 class="mat-h1">Habitaciones</h1>
-    <mat-card-actions>
-        <button mat-raised-button type="button" class="ms-3 btn btn-event btn-success" style="background-color: var(--btn-color-blue); color: #fff;"
-            (click)="abrirModal(dialogTemplate)">
-            Agregar Habitacion Nueva
-            <span class="btn-icon-end"></span>
-        </button>
-    </mat-card-actions>
+    <h1 class="mat-h1">Tickets</h1>
+
     <mat-card class="example-card card-spacing">
-        <mat-form-field appearance="standard" style="width: 100%;">
-            <mat-label>Filter</mat-label>
-            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-        </mat-form-field>
-        <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource" style="width: 100%;">
+        <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
+            <mat-tab *ngFor="let v of ventanillas" [label]="v.nombre_ventanilla">
+                <div class="p-2">
+                    <h3>Asignaciones Pendientes de Revision y Atender</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Teléfono</th>
+                                <th>Motivo</th>
+                                <th>Fecha</th>
+                                <th>Atendido</th>
+                                <th>Revisado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let a of asignaciones">
+                                <td>{{ a.nombre_cliente }}</td>
+                                <td>{{ a.telefono_cliente }}</td>
+                                <td>{{ a.motivo_consulta }}</td>
+                                <td>{{ a.fecha_hora_creacion | date:'short' }}</td>
+                                <td>{{ a.atendido }}</td>
+                                <td>{{ a.revisado }}</td>
+                                <td style="display: flex;justify-content: center;">
+                                    <button (click)="atender(a.idasignacion_consulta)"> Atender
+                                    </button>
+                                    <button (click)="revisado(a.idasignacion_consulta)"> Revisado
+                                    </button>                                    
+                                </td>
+                            </tr>
+                            <tr *ngIf="asignaciones.length === 0">
+                                <td colspan="6">No hay asignaciones</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="p-2">
+                    <h3>Asignaciones Revisadas</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Teléfono</th>
+                                <th>Motivo</th>
+                                <th>Fecha</th>
+                                <th>Atendido</th>
+                                <th>Revisado</th>
+                                <th>Hora Salida</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let a of asignacionesRevisadas">
+                                <td>{{ a.nombre_cliente }}</td>
+                                <td>{{ a.telefono_cliente }}</td>
+                                <td>{{ a.motivo_consulta }}</td>
+                                <td>{{ a.fecha_hora_creacion | date:'short' }}</td>
+                                <td>{{ a.atendido }}</td>
+                                <td>{{ a.revisado }}</td>
+                                <td>{{ a.fecha_hora_salida | date:'short'  }}</td>
+                            </tr>
+                            <tr *ngIf="asignacionesRevisadas.length === 0">
+                                <td colspan="6">No hay asignaciones revisadas</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                <!-- Position Column -->
-                <ng-container matColumnDef="idhabitacion">
-                    <th mat-header-cell *matHeaderCellDef> ID Habitacion. </th>
-                    <td mat-cell *matCellDef="let element"> {{element.idhabitacion}} </td>
-                </ng-container>
-
-                <!-- Name Column -->
-                <ng-container matColumnDef="idhotel">
-                    <th mat-header-cell *matHeaderCellDef> ID Hotel </th>
-                    <td mat-cell *matCellDef="let element"> {{element.idhotel}} </td>
-                </ng-container>
-
-                <!-- Weight Column -->
-                <ng-container matColumnDef="numero_habitacion">
-                    <th mat-header-cell *matHeaderCellDef> # Habitacion </th>
-                    <td mat-cell *matCellDef="let element"> {{element.numero_habitacion}} </td>
-                </ng-container>
-
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="tipo">
-                    <th mat-header-cell *matHeaderCellDef>Tipo </th>
-                    <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="precio">
-                    <th mat-header-cell *matHeaderCellDef> Precio </th>
-                    <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
-                </ng-container>
-
-                <!-- Options Column -->
-                <ng-container matColumnDef="opc">
-                    <th mat-header-cell *matHeaderCellDef> Más  Detalles </th>
-                    <td mat-cell *matCellDef="let element">
-                        <button mat-stroked-button color="primary"
-                            (click)="abrirModalDetalles(dialogTemplateDetalles,element.idhabitacion)">Ver
-                        </button>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumnsArticulos"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumnsArticulos;"></tr>
-            </table>
-
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-                aria-label="Select page of periodic elements">
-            </mat-paginator>
-        </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
     </mat-card>
 </div>
-
-<!-- MODAL PARA VER LOS DETALLES DEL ARITUCLO -->
-<ng-template #dialogTemplateDetalles>
-    <div class="modal-content" style="display: flex; flex-direction: column;">
-        <div class="modal-header">
-            <h3 class="modal-title" id="modal-basic-title">
-                Detalles Habitacion
-            </h3>
-        </div>
-        <hr>
-        <div class="modal-body">
-            <mat-card class="example-card card-spacing">
-                <mat-card-title-group>
-                    <img mat-card-sm-image [src]="this.imagen"
-                        (error)="this.imagen = 'https://static.vecteezy.com/system/resources/previews/016/637/865/original/school-supplies-stationery-tools-png.png'"
-                        crossorigin="anonymous" class="user-img redimention" alt=""
-                        style="width: 100%; height: 280px; object-fit: cover; margin-bottom: 20px;">
-                </mat-card-title-group>
-                <mat-card-content style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-                    <p class="p-modal"><img class="img-modal" src="../../../../../assets/img/habitaciones/services-icons/nav/number.svg">Número de Habitación: {{this.numero_habitacion}}</p>
-                    <p class="p-modal"><img class="img-modal" src="../../../../../assets/img/habitaciones/services-icons/nav/bed.svg">Tipo: {{this.tipo}}</p>
-                    <p class="p-modal"><img class="img-modal" src="../../../../../assets/img/habitaciones/services-icons/nav/price.svg">Precio: {{this.precio}}</p>
-                    <p class="p-modal"><img class="img-modal" src="../../../../../assets/img/habitaciones/services-icons/nav/hotel.svg">Hotel: {{this.idhotel}}</p>
-                    <p class="p-modal"><img class="img-modal" src="../../../../../assets/img/habitaciones/services-icons/nav/state.svg">Estado: {{this.estado}}</p>
-                    <p class="p-modal"><img class="img-modal" src="../../../../../assets/img/habitaciones/services-icons/nav/size.svg">Dimensiones: {{this.dimensiones}}</p>
-                    <p class="p-modal"><img class="img-modal" src="../../../../../assets/img/habitaciones/services-icons/nav/bed.svg">Cantidad de Camas: {{this.cantidad_camas}}</p>
-                    <p class="p-modal"><img class="img-modal" src="../../../../../assets/img/habitaciones/services-icons/nav/bath.svg">Cantidad Baños: {{this.cantidad_banios}}</p>
-                    <p class="p-modal"><img class="img-modal" src="../../../../../assets/img/habitaciones/services-icons/nav/wifi.svg">Wifi: {{this.wifi}}</p>
-                    <p class="p-modal"><img class="img-modal" src="../../../../../assets/img/habitaciones/services-icons/nav/tv.svg">TV: {{this.tv}}</p>
-                    <p class="p-modal"><img class="img-modal" src="../../../../../assets/img/habitaciones/services-icons/nav/ac.svg">AC: {{this.aireacondicionado}}</p>
-                    <p class="p-modal"><img class="img-modal" src="../../../../../assets/img/habitaciones/services-icons/nav/view.svg">Vistas: {{this.vistas}}</p>
-                    <p class="p-modal"><img class="img-modal" src="../../../../../assets/img/habitaciones/services-icons/nav/user.svg">Capacidad: {{this.capacidad}}</p>
-                </mat-card-content>
-                <mat-card-actions>
-                    <button mat-raised-button color="warn" type="button">Eliminar</button>
-                    <button mat-button class="color" type="button"
-                        (click)="abrirModalUpdate(dialogTemplateActualizar,this.idhabitacion)">Actualizar</button>
-                    <button mat-raised-button color="primary" type="button"
-                    (click)="abrirModalUpdateImage(dialogTemplateUploadImage,this.idhabitacion)"
-                    >Actualizar
-                        Imagen</button>
-
-                </mat-card-actions>
-            </mat-card>
-        </div>
-    </div>
-</ng-template>
-<!-- MODAL PARA VER LOS DETALLES DEL ARITUCLO -->
-
-<!--AGREGAR NUEA HABITACION-->
-<ng-template #dialogTemplate>
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title" id="modal-basic-title">
-                Agregar Habitacion
-            </h3>
-
-        </div>
-        <hr>
-        <div class="modal-body">
-            <!--fomr-->
-            <form [formGroup]="form" (ngSubmit)="addHabitacion()" class="example-form">
-                <div class="form-container">
-                    <div class="row">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>Hotel</mat-label>
-                            <mat-select formControlName="idhotel">
-                                <mat-option *ngFor="let hotel of hotelesData" [value]="hotel.idhotel">
-                                    {{hotel.nombre}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>numero_habitacion</mat-label>
-                            <input matInput formControlName="numero_habitacion" type="number">
-                        </mat-form-field>
-                    </div>
-                    <div class="row">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>tipo</mat-label>
-                            <input matInput formControlName="tipo">
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>precio</mat-label>
-                            <input matInput formControlName="precio" type="number">
-                        </mat-form-field>
-                    </div>
-                    <div class="row">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>estado</mat-label>
-                            <mat-select formControlName="estado">
-                                <mat-option value="DISPONIBLE">DISPONIBLE</mat-option>
-                                <mat-option value="NO DISPONIBLE">NO DISPONIBLE</mat-option>
-                            </mat-select>
-                            <input matInput formControlName="estado">
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>dimensiones</mat-label>
-                            <input matInput formControlName="dimensiones">
-                        </mat-form-field>
-                    </div>
-                    <div class="row">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>cantidad_camas</mat-label>
-                            <input matInput formControlName="cantidad_camas">
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>cantidad_banios</mat-label>
-                            <input matInput formControlName="cantidad_banios">
-                        </mat-form-field>
-                    </div>
-                    <div class="row">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>wifi</mat-label>
-                            <mat-select formControlName="wifi">
-                                <mat-option value="Si">Si</mat-option>
-                                <mat-option value="No">No</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>tv</mat-label>
-                            <mat-select formControlName="tv">
-                                <mat-option value="Si">Si</mat-option>
-                                <mat-option value="No">No</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="row">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>aireacondicionado</mat-label>
-                            <mat-select formControlName="aireacondicionado">
-                                <mat-option value="Si">Si</mat-option>
-                                <mat-option value="No">No</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>vistas</mat-label>
-                            <input matInput formControlName="vistas">
-                        </mat-form-field>
-                    </div>
-                    <div class="row">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>capacidad</mat-label>
-                            <input matInput formControlName="capacidad">
-                        </mat-form-field>
-                    </div>
-                </div>
-
-                <mat-card-actions>
-                    <button mat-raised-button color="warn" type="button" mat-dialog-close>
-                        Descartar
-                    </button>
-                    <button mat-raised-button color="primary" type="submit" mat-dialog-close>
-                        Guardar
-                    </button>
-                </mat-card-actions>
-            </form>
-        </div>
-    </div>
-</ng-template>
-
-<!--modal para actualizar habitacion-->
-<ng-template #dialogTemplateActualizar>
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title" id="modal-basic-title">
-                Actualizar Habitacion
-            </h3>
-        </div>
-        <hr>
-        <div class="modal-body">
-            <form [formGroup]="formUpdate" (ngSubmit)="updateHabitacion()">
-                <div class="form-container">
-                    <div class="row">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>Hotel</mat-label>
-                            <mat-select formControlName="idhotel">
-                                <mat-option *ngFor="let hotel of hotelesData" [value]="hotel.idhotel">
-                                    {{hotel.nombre}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>Número de Habitación</mat-label>
-                            <input matInput formControlName="numero_habitacion" type="number">
-                        </mat-form-field>
-                    </div>
-                    <div class="row">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>Tipo</mat-label>
-                            <input matInput formControlName="tipo">
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>Precio</mat-label>
-                            <input matInput formControlName="precio" type="number">
-                        </mat-form-field>
-                    </div>
-                    <div class="row">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>Estado</mat-label>
-                            <mat-select formControlName="estado">
-                                <mat-option value="DISPONIBLE">DISPONIBLE</mat-option>
-                                <mat-option value="NO DISPONIBLE">NO DISPONIBLE</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>Dimensiones</mat-label>
-                            <input matInput formControlName="dimensiones">
-                        </mat-form-field>
-                    </div>
-                    <div class="row">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>Cantidad de Camas</mat-label>
-                            <input matInput formControlName="cantidad_camas">
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>Cantidad de Baños</mat-label>
-                            <input matInput formControlName="cantidad_banios">
-                        </mat-form-field>
-                    </div>
-                    <div class="row">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>WiFi</mat-label>
-                            <mat-select formControlName="wifi">
-                                <mat-option value="Si">Sí</mat-option>
-                                <mat-option value="No">No</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>TV</mat-label>
-                            <mat-select formControlName="tv">
-                                <mat-option value="Si">Sí</mat-option>
-                                <mat-option value="No">No</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="row">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>Aire Acondicionado</mat-label>
-                            <mat-select formControlName="aireacondicionado">
-                                <mat-option value="Si">Sí</mat-option>
-                                <mat-option value="No">No</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>Vistas</mat-label>
-                            <input matInput formControlName="vistas">
-                        </mat-form-field>
-                    </div>
-                    <div class="row">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>Capacidad</mat-label>
-                            <input matInput formControlName="capacidad">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <mat-card-actions>
-                    <button mat-raised-button color="warn" type="button" mat-dialog-close>
-                    Descartar
-                    </button>
-                    <button mat-raised-button color="primary" type="submit" mat-dialog-close>
-                    Guardar
-                    </button>
-                  </mat-card-actions>
-            </form>
-        </div>
-    </div>
-</ng-template>
-
-<!--modal para actualizar imagen habitacion-->
-<ng-template #dialogTemplateUploadImage>
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" id="modal-basic-title">
-         Actualizar Imagen de Habitacion
-        </h3>
-      </div>
-      <hr>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label for="image" class="form-label">Select image: </label>
-          <input (change)="filesChange($event)" type="file" class="form-control" id="image">
-        </div>
-        <mat-card-actions>
-          <button mat-raised-button color="warn" type="button" mat-dialog-close>
-            <i class="fa fa-times-circle" aria-hidden="true"></i> Descartar
-          </button>
-          <button mat-raised-button mat-dialog-close (click)="uploadImage()" type="button"
-            class="btn btn-primary">Guardar</button>
-        </mat-card-actions>
-      </div>
-    </div>
-  </ng-template>

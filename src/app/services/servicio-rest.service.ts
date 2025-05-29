@@ -73,4 +73,23 @@ export class ServicioRestService {
       xhr.send(formData)
     })
   }
+
+  getTipoConsultas() {
+    return this.http.get(environment.baseUrl + 'tipoConsulta/getTipoConsultas');
+  }
+  addTipoConsulta(params: {}) {
+    let body = JSON.stringify(params);
+    return this.http.post(environment.baseUrl + 'tipoConsulta/addTipoConsulta', params);
+  }
+  updateTipoConsulta(id: string, params: {}) {
+    let body = JSON.stringify(params);
+    return this.http.put(environment.baseUrl + 'tipoConsulta/updateTipoConsulta/' + id, params);
+  }
+  getTipoConsulta(id: string) {
+    return this.http.get(environment.baseUrl + 'tipoConsulta/getTipoConsulta/' + id);
+  }
+  getVentanilla(id: string) {
+    return this.http.get(environment.baseUrl + 'tipoConsulta/getVentanilla/' + id);
+  }
+  
 }

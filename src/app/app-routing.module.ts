@@ -20,6 +20,7 @@ import { AdminHotelesComponent } from './components/admin/admin-hoteles/admin-ho
 import { AdminReservacionesComponent } from './components/admin/admin-reservaciones/admin-reservaciones/admin-reservaciones.component';
 import { AdminServiciosComponent } from './components/admin/admin-servicios/admin-servicios/admin-servicios.component';
 import { AdminUsuariosComponent } from './components/admin/admin-usuarios/admin-usuarios/admin-usuarios.component';
+import { AdminReportesComponent } from './components/admin/admin-reportes/admin-reportes/admin-reportes.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,7 @@ const routes: Routes = [
       {path: 'reservaciones', component: AdminReservacionesComponent},
       {path: 'servicios', component: AdminServiciosComponent},
       {path: 'usuarios', component: AdminUsuariosComponent},
+      {path: 'reportes', component: AdminReportesComponent},
     ]
   }
 ];

@@ -19,26 +19,17 @@
         <img class="tokenImage"
           src="https://media.istockphoto.com/id/1225898954/es/vector/edificio-de-cl%C3%ADnica-s-ilustraci%C3%B3n-plana-simple.jpg?s=612x612&w=0&k=20&c=ENlzQYkaXpdNQqGftI6-a2aQR18Qahc1kgtEtaHb6pA="
           alt="Ventanilla" />
-        <h2>{{ ventanilla.nombre }}</h2>
+        <h2 style="color: white;">{{ ventanilla.nombre }}</h2>
         <p class="description">{{ ventanilla.descripcion }}</p>
         <div class="tokenInfo">
-          <div class="price">
-            <ins>ID</ins>
-            <p>{{ ventanilla.idventanillas }}</p>
-          </div>
-          <div class="duration">
-            <ins>Tipo</ins>
-            <p>{{ ventanilla.idtipo_consulta }}</p>
-          </div>
         </div>
         <hr />
         <div class="creator">
-          <div class="wrapper">
-            <img
-              src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?ixlib=rb-1.2.1&auto=format&fit=crop&w=1932&q=80"
-              alt="Creator" />
+          <div style="display: flex;justify-content: center;">
+            <button class="slice" (click)="abrirModal(dialogTemplate,ventanilla.idtipo_consulta)">
+              <span class="text">Crear Ticket</span>
+            </button>
           </div>
-          <p><ins>Condición:</ins> {{ ventanilla.condicion === 1 ? 'Activa' : 'Inactiva' }}</p>
         </div>
       </div>
     </div>
@@ -46,3 +37,47 @@
 
 
 </section>
+
+<!--AGREGAR -->
+<ng-template #dialogTemplate>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-basic-title">
+        Crear Ticket de Cliente
+      </h3>
+
+    </div>
+    <hr>
+    <div class="modal-body">
+      <!--fomr-->
+      <form [formGroup]="form" (ngSubmit)="addAsignacionTicket()" class="example-form">
+        <div class="form-container">
+          <div class="row">
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Descripción</mat-label>
+              <input matInput formControlName="descripcion" type="text">
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Nombre Cliente</mat-label>
+              <input matInput formControlName="nombre_cliente" type="text">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Telefono Cliente</mat-label>
+              <input matInput formControlName="telefono_cliente" type="text">
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-card-actions>
+          <button mat-raised-button color="warn" type="button" mat-dialog-close>
+            Descartar
+          </button>
+          <button mat-raised-button color="primary" type="submit" mat-dialog-close>
+            Guardar
+          </button>
+        </mat-card-actions>
+      </form>
+    </div>
+  </div>
+</ng-template>

@@ -18,7 +18,7 @@ export class AdminServiciosComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
   displayedColumnsArticulos: string[] = [
-    'idservicios', 'servicio', 'descripcion', 'precio', 'opc'
+    'idtipo_consulta', 'nombre', 'descripcion', 'condicion', 'opc'
   ];
   dataSource = new MatTableDataSource();
   //TABLA
@@ -28,10 +28,10 @@ export class AdminServiciosComponent implements AfterViewInit {
   }
   form!: FormGroup;
   formUpdate!: FormGroup;
-  idservicios:any;
-  servicio:any;
+  idtipo_consulta:any;
+  nombre:any;
   descripcion:any;
-  precio:any;
+  condicion:any;
   imagen:any;
   filesToUpload:any;
   constructor(
@@ -42,26 +42,25 @@ export class AdminServiciosComponent implements AfterViewInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      servicio: ['', Validators.required],
-      descripcion: ['', Validators.required],
-      precio: ['', Validators.required],
+      nombre: ['', Validators.required],
+      descripcion: ['', Validators.required]
     });
     this.formUpdate = this.fb.group({
-      servicio: ['', Validators.required],
+      nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
-      precio: ['', Validators.required],
+      condicion: ['', Validators.required]
     });
-    this.getServicios();
+    this.getTipoConsultas();
   }
 
-  getServicios(){
-    this.servicioRest.getServicios().subscribe({
+  getTipoConsultas(){
+    this.servicioRest.getTipoConsultas().subscribe({
       next: (res:any)=>{
-        const datosTable = res.data.map((servicio: any) => ({
-          idservicios: servicio.idservicios,
-          servicio: servicio.servicio,
-          descripcion: servicio.descripcion,
-          precio: servicio.precio
+        const datosTable = res.data.map((tipo_consulta: any) => ({
+          idtipo_consulta: tipo_consulta.idtipo_consulta,
+          nombre: tipo_consulta.nombre,
+          descripcion: tipo_consulta.descripcion,
+          condicion: tipo_consulta.condicion
         }));
         this.dataSource.data = datosTable;
       }
@@ -69,12 +68,13 @@ export class AdminServiciosComponent implements AfterViewInit {
   }
 
   abrirModal(templateRef: any) {
+    this.form.reset();
     let dialogRef = this.dialog.open(templateRef, {
       width: '500px'
     });
   }
 
-  addServicio(){
+  addTipoConsulta(){
     if(this.form.invalid){
       Swal.fire({
         icon: "error",
@@ -82,7 +82,7 @@ export class AdminServiciosComponent implements AfterViewInit {
         text: "Completa el formulario correctamente",
       });
     }else{
-      this.servicioRest.addServicio(this.form.value).subscribe({
+      this.servicioRest.addTipoConsulta(this.form.value).subscribe({
         next: (res:any)=>{
           Swal.fire({
             title: '¡Éxito!',
@@ -90,7 +90,8 @@ export class AdminServiciosComponent implements AfterViewInit {
             icon: 'success',
             confirmButtonText: 'Aceptar'
           });
-          this.getServicios();
+          this.getTipoConsultas();
+          this.form.reset();
         },
         error: (err) => {
           Swal.fire({
@@ -104,13 +105,13 @@ export class AdminServiciosComponent implements AfterViewInit {
   }
 
   abrirModalDetalles(templateRef:any, id:string){
-    this.servicioRest.getServicio(id).subscribe({
+    this.servicioRest.getTipoConsulta(id).subscribe({
       next: (res:any)=>{
-        this.idservicios = res.data.idservicios;
-        this.servicio = res.data.servicio;
+        this.idtipo_consulta = res.data.idtipo_consulta;
+        this.nombre = res.data.nombre;
         this.descripcion = res.data.descripcion;
-        this.precio = res.data.precio;
-        this.imagen = environment.baseUrl + 'servicio/getImage/' + res.data.imagen;
+        this.condicion = res.data.condicion;
+        this.imagen = "";
       }
     })
     let dialogRef = this.dialog.open(templateRef, {
@@ -119,14 +120,14 @@ export class AdminServiciosComponent implements AfterViewInit {
   }
 
   abrirModalUpdate(templateRef:any, id:string){
-    this.idservicios = id;
-    console.log("id ", id);
-    this.servicioRest.getServicio(this.idservicios).subscribe({
+    this.idtipo_consulta = id;
+    //console.log("id ", id);
+    this.servicioRest.getTipoConsulta(this.idtipo_consulta).subscribe({
       next: (res:any)=>{
         this.formUpdate.setValue({
-          servicio :res.data.servicio,
+          nombre :res.data.nombre,
           descripcion :res.data.descripcion,
-          precio :res.data.precio,
+          condicion :res.data.condicion,
           
         });
       }
@@ -135,8 +136,9 @@ export class AdminServiciosComponent implements AfterViewInit {
       width: '500px'
     });
   }
+  
 
-  updateServicio(){
+  updateTipoConsulta(){
     if(this.formUpdate.invalid){
       Swal.fire({
         icon: "error",
@@ -144,7 +146,7 @@ export class AdminServiciosComponent implements AfterViewInit {
         text: "Completa el formulario correctamente",
       });
     }else{
-      this.servicioRest.updateServicio(this.idservicios, this.formUpdate.value).subscribe({
+      this.servicioRest.updateTipoConsulta(this.idtipo_consulta, this.formUpdate.value).subscribe({
         next: (res:any)=>{
           Swal.fire({
             title: '¡Éxito!',
@@ -152,7 +154,7 @@ export class AdminServiciosComponent implements AfterViewInit {
             icon: 'success',
             confirmButtonText: 'Aceptar'
           });
-          this.getServicios();
+          this.getTipoConsultas();
         },
         error: (err) => {
           Swal.fire({
@@ -165,12 +167,14 @@ export class AdminServiciosComponent implements AfterViewInit {
     }
   }
 
+  /*
   abrirModalUpdateImage(templateRef:any, id:string){
     this.idservicios = id;
     let dialogRef = this.dialog.open(templateRef, {
       width: '500px'
     });
   }
+
 
   filesChange(inputFile:any){
     this.filesToUpload = <Array<File>>inputFile.target.files;
@@ -192,14 +196,15 @@ export class AdminServiciosComponent implements AfterViewInit {
           text: resClear.message,
           confirmButtonText: 'OK'
         }).then(confirm=>{
-          this.getServicios();
+          this.getTipoConsultas();
         });
         
       }else{
         console.log(res);
-        this.getServicios();
+        this.getTipoConsultas();
       }
     })
   }
+  */
 
 }

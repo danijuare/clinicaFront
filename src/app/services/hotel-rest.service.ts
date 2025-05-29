@@ -62,4 +62,26 @@ export class HotelRestService {
       xhr.send(formData)
     })
   }
+
+  getVentanillas() {
+    return this.http.get(environment.baseUrl + 'tipoConsulta/getVentanillas');
+  }
+
+  getVentanilla(id: string) {
+    return this.http.get(environment.baseUrl + 'tipoConsulta/getVentanilla/' + id);
+  }
+
+  addVentanilla(params: {}) {
+    let body = JSON.stringify(params);
+    return this.http.post(environment.baseUrl + 'tipoConsulta/addVentanilla', params);
+  }
+
+  getTipoConsultas() {
+    return this.http.get(environment.baseUrl + 'tipoConsulta/getTipoConsultas');
+  }
+
+  updateVentanilla(id: string, params: {}) {
+    let body = JSON.stringify(params);
+    return this.http.put(environment.baseUrl + 'tipoConsulta/updateVentanilla/' + id, params);
+  }
 }

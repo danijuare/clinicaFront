@@ -1,0 +1,11 @@
+.grid-container {
+    margin: 20px;
+}
+
+.grid-container2 {
+    display: flex;
+    flex-wrap: nowrap;
+    /* Evita que las tarjetas se envuelvan a la siguiente línea */
+    overflow-x: auto;
+    /* Agrega scroll horizontal si las tarjetas no caben en la pantalla */
+}

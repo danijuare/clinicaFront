@@ -65,4 +65,24 @@ export class HabitacionRestService {
       xhr.send(formData)
     })
   }
+
+  getVentanillasActivas() {
+    return this.http.get(environment.baseUrl + 'tipoConsulta/getVentanillasActivas');
+  }
+
+  getAsignacionesPorVentanilla(id: string) {
+    return this.http.get(environment.baseUrl + 'asignacion/getAsignacionesPorVentanilla/' + id);
+  }
+
+  getAsignacionesPorVentanillaRevisadas(id: string) {
+    return this.http.get(environment.baseUrl + 'asignacion/getAsignacionesPorVentanillaRevisadas/' + id);
+  }
+
+  updateAtendido(id: string) {
+    return this.http.get(environment.baseUrl + 'asignacion/updateAtendido/' + id);
+  }
+
+  updateRevisado(id: string) {
+    return this.http.get(environment.baseUrl + 'asignacion/updateRevisado/' + id);
+  }
 }
