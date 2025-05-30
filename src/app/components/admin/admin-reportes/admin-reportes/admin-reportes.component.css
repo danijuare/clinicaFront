@@ -9,3 +9,144 @@
     overflow-x: auto;
     /* Agrega scroll horizontal si las tarjetas no caben en la pantalla */
 }
+
+.form-filtro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  background-color: #fafafa;
+  max-width: 600px;
+  margin: 0 auto 32px auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+mat-form-field {
+  flex: 1;
+  min-width: 200px;
+}
+
+.form-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.filtro-container {
+  max-width: 400px;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.tabla-container {
+  overflow-x: auto;
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-personalizada {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mat-header-cell {
+  background-color: #3f51b5;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.mat-cell {
+  font-size: 14px;
+  color: #333;
+}
+
+.mat-row:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.mat-row:hover {
+  background-color: #e0f7fa;
+  transition: background-color 0.3s;
+}
+
+.mat-paginator {
+  margin-top: 10px;
+}
+
+button {
+  position: relative;
+  border-radius: 7px;
+  border: 1px solid rgb(61, 106, 255);
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 2px;
+  background: transparent;
+  color: #fff;
+  overflow: hidden;
+  box-shadow: 0 0 0 0 transparent;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+button:hover {
+  background: rgb(61, 106, 255);
+  box-shadow: 0 0 30px 5px rgba(0, 142, 236, 0.815);
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+button:hover::before {
+  -webkit-animation: sh02 0.5s 0s linear;
+  -moz-animation: sh02 0.5s 0s linear;
+  animation: sh02 0.5s 0s linear;
+}
+
+button::before {
+  content: '';
+  display: block;
+  width: 0px;
+  height: 86%;
+  position: absolute;
+  top: 7%;
+  left: 0%;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 0 0 50px 30px #fff;
+  -webkit-transform: skewX(-20deg);
+  -moz-transform: skewX(-20deg);
+  -ms-transform: skewX(-20deg);
+  -o-transform: skewX(-20deg);
+  transform: skewX(-20deg);
+}
+
+.form-button-group {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.form-button-group button {
+  min-width: 120px;
+  font-weight: 500;
+}

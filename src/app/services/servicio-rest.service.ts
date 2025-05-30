@@ -91,5 +91,54 @@ export class ServicioRestService {
   getVentanilla(id: string) {
     return this.http.get(environment.baseUrl + 'tipoConsulta/getVentanilla/' + id);
   }
-  
+
+  //REPORTES
+  //PDF
+  generatePDFConsultasAtendidas(params: {}) {
+    return this.http.post(environment.baseUrl + 'asignacion/generatePDFConsultasAtendidas/', params, {
+      responseType: 'blob' as 'json'
+    });
+  }
+  //NORMAL
+  generateConsultasAtendidas(params: {}) {
+    return this.http.post<any[]>(environment.baseUrl + 'asignacion/generateConsultasAtendidas', params);
+  }
+
+  //REPORTE //2
+  //PDF
+  generatePDFConsultasRevisadasNoAtendidas(params: {}) {
+    return this.http.post(environment.baseUrl + 'asignacion/generatePDFConsultasRevisadasNoAtendidas/', params, {
+      responseType: 'blob' as 'json'
+    });
+  }
+  //NORMAL
+  generateConsultasRevisadasNoAtendidas(params: {}) {
+    return this.http.post<any[]>(environment.baseUrl + 'asignacion/generateConsultasRevisadasNoAtendidas', params);
+  }
+
+  //REPORTE 3
+  //PDF
+  generatePDFConsultasTotalPorVentanilla(params: {}) {
+    return this.http.post(environment.baseUrl + 'asignacion/generatePDFConsultasTotalPorVentanilla/', params, {
+      responseType: 'blob' as 'json'
+    });
+  }
+  //NORMAL
+  generateConsultasTotalPorVentanilla(params: {}) {
+    return this.http.post<any[]>(environment.baseUrl + 'asignacion/generateConsultasTotalPorVentanilla', params);
+  }
+
+  //REPORTE 4
+  //PDF
+  generatePDFConsultasGeneral(params: {}) {
+    return this.http.post(environment.baseUrl + 'asignacion/generatePDFConsultasGeneral/', params, {
+      responseType: 'blob' as 'json'
+    });
+  }
+  //NORMAL
+  generateConsultasGeneral(params: {}) {
+    return this.http.post<any[]>(environment.baseUrl + 'asignacion/generateConsultasGeneral', params);
+  }
+
+
 }

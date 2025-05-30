@@ -1,3 +1,349 @@
 <div class="grid-container">
     <h1 class="mat-h1">Reportes</h1>
+    <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="Reporte #1">
+            <h1 class="mat-h1">Reporte Consultas Atendidas</h1>
+            <form [formGroup]="form" (ngSubmit)="buscarConsultas()" class="form-filtro">
+                <div class="form-fields">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Fecha Inicio</mat-label>
+                        <input matInput type="date" formControlName="fecha_inicio" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Fecha Fin</mat-label>
+                        <input matInput type="date" formControlName="fecha_fin" />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-button-group">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="cargando">
+                        {{ cargando ? 'Buscando...' : 'Buscar' }}
+                    </button>
+
+                    <button mat-raised-button color="accent" type="button" (click)="exportarPDF()"
+                        [disabled]="cargando">
+                        Exportar PDF
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Campo de filtro -->
+            <div class="filtro-container" *ngIf="dataSource.data.length > 0">
+                <mat-form-field appearance="outline">
+                    <mat-label>Filtrar</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar resultados" />
+                </mat-form-field>
+            </div>
+
+            <!-- Tabla de resultados -->
+            <div class="tabla-container" *ngIf="dataSource.data.length > 0">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 tabla-personalizada">
+
+                    <!-- Columnas -->
+                    <ng-container matColumnDef="idasignacion_consulta">
+                        <th mat-header-cell *matHeaderCellDef> ID Ticket </th>
+                        <td mat-cell *matCellDef="let element"> {{element.idasignacion_consulta}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="tipo_consulta_nombre">
+                        <th mat-header-cell *matHeaderCellDef> Tipo Consulta </th>
+                        <td mat-cell *matCellDef="let element"> {{element.tipo_consulta_nombre}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nombre_cliente">
+                        <th mat-header-cell *matHeaderCellDef> Cliente </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombre_cliente}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="telefono_cliente">
+                        <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+                        <td mat-cell *matCellDef="let element"> {{element.telefono_cliente}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fecha_hora_salida">
+                        <th mat-header-cell *matHeaderCellDef> Fecha y Hora </th>
+                        <td mat-cell *matCellDef="let element"> {{element.fecha_hora_salida | date:'dd/MM/yyyy
+                            HH:mm:ss'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="atendido">
+                        <th mat-header-cell *matHeaderCellDef> Atendido </th>
+                        <td mat-cell *matCellDef="let element"> {{element.atendido}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="revisado">
+                        <th mat-header-cell *matHeaderCellDef> Revisado </th>
+                        <td mat-cell *matCellDef="let element"> {{element.revisado}} </td>
+                    </ng-container>
+
+                    <!-- Filas -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <!-- Paginador -->
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+
+
+
+        </mat-tab>
+        <mat-tab label="Reporte #2">
+            <h1 class="mat-h1">Reporte Consultas Revisadas y No Atendidas</h1>
+            <form [formGroup]="form" (ngSubmit)="buscarConsultas_revisadasynoatendidas()" class="form-filtro">
+                <div class="form-fields">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Fecha Inicio</mat-label>
+                        <input matInput type="date" formControlName="fecha_inicio" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Fecha Fin</mat-label>
+                        <input matInput type="date" formControlName="fecha_fin" />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-button-group">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="cargando_revisadas_noatendidas">
+                        {{ cargando_revisadas_noatendidas ? 'Buscando...' : 'Buscar' }}
+                    </button>
+
+                    <button mat-raised-button color="accent" type="button" (click)="exportarPDF_revisadas_noatendidas()"
+                        [disabled]="cargando_revisadas_noatendidas">
+                        Exportar PDF
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Campo de filtro -->
+            <div class="filtro-container" *ngIf="dataSource_revisadas_noatendidas.data.length > 0">
+                <mat-form-field appearance="outline">
+                    <mat-label>Filtrar</mat-label>
+                    <input matInput (keyup)="applyFilter4($event)" placeholder="Filtrar resultados" />
+                </mat-form-field>
+            </div>
+
+            <!-- Tabla de resultados -->
+            <div class="tabla-container" *ngIf="dataSource_revisadas_noatendidas.data.length > 0">
+                <table mat-table [dataSource]="dataSource_revisadas_noatendidas"
+                    class="mat-elevation-z8 tabla-personalizada">
+
+                    <!-- Columnas -->
+                    <ng-container matColumnDef="idasignacion_consulta">
+                        <th mat-header-cell *matHeaderCellDef> ID Ticket </th>
+                        <td mat-cell *matCellDef="let element"> {{element.idasignacion_consulta}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="tipo_consulta_nombre">
+                        <th mat-header-cell *matHeaderCellDef> Tipo Consulta </th>
+                        <td mat-cell *matCellDef="let element"> {{element.tipo_consulta_nombre}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nombre_cliente">
+                        <th mat-header-cell *matHeaderCellDef> Cliente </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombre_cliente}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="telefono_cliente">
+                        <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+                        <td mat-cell *matCellDef="let element"> {{element.telefono_cliente}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fecha_hora_salida">
+                        <th mat-header-cell *matHeaderCellDef> Fecha y Hora </th>
+                        <td mat-cell *matCellDef="let element"> {{element.fecha_hora_salida | date:'dd/MM/yyyy
+                            HH:mm:ss'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="atendido">
+                        <th mat-header-cell *matHeaderCellDef> Atendido </th>
+                        <td mat-cell *matCellDef="let element"> {{element.atendido}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="revisado">
+                        <th mat-header-cell *matHeaderCellDef> Revisado </th>
+                        <td mat-cell *matCellDef="let element"> {{element.revisado}} </td>
+                    </ng-container>
+
+                    <!-- Filas -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns_revisadas_no_atendidas"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns_revisadas_no_atendidas;"></tr>
+                </table>
+
+                <!-- Paginador -->
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+
+
+
+        </mat-tab>
+        <mat-tab label="Reporte #3">
+            <h1 class="mat-h1">Reporte Consultas Ticket Totales por Ventanilla</h1>
+            <form [formGroup]="form" (ngSubmit)="buscarConsultas_total_por_ventanilla()" class="form-filtro">
+                <div class="form-fields">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Fecha Inicio</mat-label>
+                        <input matInput type="date" formControlName="fecha_inicio" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Fecha Fin</mat-label>
+                        <input matInput type="date" formControlName="fecha_fin" />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-button-group">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="cargando_tota_por_ventanilla">
+                        {{ cargando_tota_por_ventanilla ? 'Buscando...' : 'Buscar' }}
+                    </button>
+
+                    <button mat-raised-button color="accent" type="button" (click)="exportarPDF_total_por_ventanilla()"
+                        [disabled]="cargando_tota_por_ventanilla">
+                        Exportar PDF
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Campo de filtro -->
+            <div class="filtro-container" *ngIf="dataSource_total_por_ventanilla.data.length > 0">
+                <mat-form-field appearance="outline">
+                    <mat-label>Filtrar</mat-label>
+                    <input matInput (keyup)="applyFilter3($event)" placeholder="Filtrar resultados" />
+                </mat-form-field>
+            </div>
+
+            <!-- Tabla de resultados -->
+            <div class="tabla-container" *ngIf="dataSource_total_por_ventanilla.data.length > 0">
+                <table mat-table [dataSource]="dataSource_total_por_ventanilla"
+                    class="mat-elevation-z8 tabla-personalizada">
+
+                    <!-- Columnas -->
+                    <ng-container matColumnDef="idventanillas">
+                        <th mat-header-cell *matHeaderCellDef> ID Ventanilla </th>
+                        <td mat-cell *matCellDef="let element"> {{element.idventanillas}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="nombre_ventanilla">
+                        <th mat-header-cell *matHeaderCellDef> Nombre Ventanilla </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombre_ventanilla}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="total_atendidos">
+                        <th mat-header-cell *matHeaderCellDef> Total Atendidos </th>
+                        <td mat-cell *matCellDef="let element"> {{element.total_atendidos}} </td>
+                    </ng-container>
+
+                    <!-- Filas -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns_total_por_ventanilla"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns_total_por_ventanilla;"></tr>
+                </table>
+
+                <!-- Paginador -->
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+
+
+
+        </mat-tab>
+        <mat-tab label="Reporte #4">
+            <h1 class="mat-h1">Reporte Consultas General</h1>
+            <form [formGroup]="form" (ngSubmit)="buscarConsultas_general()" class="form-filtro">
+                <div class="form-fields">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Fecha Inicio</mat-label>
+                        <input matInput type="date" formControlName="fecha_inicio" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Fecha Fin</mat-label>
+                        <input matInput type="date" formControlName="fecha_fin" />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-button-group">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="cargando_general">
+                        {{ cargando_general ? 'Buscando...' : 'Buscar' }}
+                    </button>
+
+                    <button mat-raised-button color="accent" type="button" (click)="exportarPDF_general()"
+                        [disabled]="cargando_general">
+                        Exportar PDF
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Campo de filtro -->
+            <div class="filtro-container" *ngIf="dataSource_general.data.length > 0">
+                <mat-form-field appearance="outline">
+                    <mat-label>Filtrar</mat-label>
+                    <input matInput (keyup)="applyFilter2($event)" placeholder="Filtrar resultados" />
+                </mat-form-field>
+            </div>
+
+            <!-- Tabla de resultados -->
+            <div class="tabla-container" *ngIf="dataSource_general.data.length > 0">
+                <table mat-table [dataSource]="dataSource_general" class="mat-elevation-z8 tabla-personalizada">
+
+                    <!-- Columnas -->
+                    <ng-container matColumnDef="idasignacion_consulta">
+                        <th mat-header-cell *matHeaderCellDef> ID Ventanilla </th>
+                        <td mat-cell *matCellDef="let element"> {{element.idasignacion_consulta}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="consulta">
+                        <th mat-header-cell *matHeaderCellDef> Tipo Consulta </th>
+                        <td mat-cell *matCellDef="let element"> {{element.consulta}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ventanilla">
+                        <th mat-header-cell *matHeaderCellDef> Ventanilla </th>
+                        <td mat-cell *matCellDef="let element"> {{element.ventanilla}} </td>
+                    </ng-container>
+
+                    //
+                    <ng-container matColumnDef="descripcion">
+                        <th mat-header-cell *matHeaderCellDef> Descripcion </th>
+                        <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nombre_cliente">
+                        <th mat-header-cell *matHeaderCellDef> Nombre Cliente </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombre_cliente}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="telefono_cliente">
+                        <th mat-header-cell *matHeaderCellDef> Telefono Cliente </th>
+                        <td mat-cell *matCellDef="let element"> {{element.telefono_cliente}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fecha_hora_salida">
+                        <th mat-header-cell *matHeaderCellDef> Fecha y Hora </th>
+                        <td mat-cell *matCellDef="let element"> {{element.fecha_hora_salida | date:'dd/MM/yyyy
+                            HH:mm:ss'}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="atendido">
+                        <th mat-header-cell *matHeaderCellDef> Atendido </th>
+                        <td mat-cell *matCellDef="let element"> {{element.atendido}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="revisado">
+                        <th mat-header-cell *matHeaderCellDef> Revisado </th>
+                        <td mat-cell *matCellDef="let element"> {{element.revisado}} </td>
+                    </ng-container>
+
+                    <!-- Filas -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns_general"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns_general;"></tr>
+                </table>
+
+                <!-- Paginador -->
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+
+
+
+        </mat-tab>
+    </mat-tab-group>
+
 </div>
